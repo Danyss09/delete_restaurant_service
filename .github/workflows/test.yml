@@ -28,12 +28,13 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ec2-user  # Asegúrate de estar en el directorio correcto
+            cd /home/ec2-user
             sudo docker stop delete_restaurant_service || true
             sudo docker rm delete_restaurant_service || true
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/delete_restaurant_service:latest
             sudo docker run -d --restart always \
-              --env-file /home/ec2-user/.env \  # Ruta del archivo .env en la EC2
+              --env-file /home/ec2-user/.env \
               -p 3000:3000 \
               --name delete_restaurant_service \
               ${{ secrets.DOCKER_USERNAME }}/delete_restaurant_service:latest
+
