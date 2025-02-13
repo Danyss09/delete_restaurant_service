@@ -3,12 +3,19 @@ const express = require('express');
 const WebSocket = require('ws');
 const http = require('http');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const restaurantRoutes = require('./routes/restaurantRoutes');
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+const corsOptions = {
+  origin: '*',  // Permitir cualquier origen
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],  // Métodos HTTP permitidos
+  allowedHeaders: ['Content-Type'],  // Encabezados permitidos
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/delete_restaurant', restaurantRoutes);
 
